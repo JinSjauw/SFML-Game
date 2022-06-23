@@ -11,12 +11,13 @@ void Game::initWindow()
 	this->backgroundTexture.setRepeated(true);
 	
 	//Filling up the list with 3 copies of the same background sprite
-	for (int i = 0; i < 20; i++) 
+	for (unsigned int i = 0; i < 20; i++) 
 	{
 		sf::Sprite backgroundSprite;
 		backgroundSprite.setTexture(this->backgroundTexture);
 		backgroundSprite.setPosition(0, backgroundSprite.getGlobalBounds().height - (i * backgroundSprite.getGlobalBounds().height));
 		this->backgrounds.push_back(backgroundSprite);
+		
 	}
 }
 
@@ -25,7 +26,7 @@ void Game::initView(float x, float y, float width, float height)
 	this->view.setCenter(x, y);
 	this->view.setSize(width, height);
 	this->window->setView(this->view);
-	std::cout << "View position " << this->view.getCenter().x << " : " << this->view.getCenter().y << std::endl;
+	//std::cout << "View position " << this->view.getCenter().x << " : " << this->view.getCenter().y << std::endl;
 }
 
 void Game::initPlayer()
@@ -60,25 +61,39 @@ void Game::UpdateView()
 
 void Game::DisplayBackground()
 {
-	std::cout << "Initial background pos: " << this->view.getCenter().x << " " << this->view.getCenter().y << std::endl;
-	std::cout << "Background position: " << this->backgrounds[2].getPosition().y << std::endl;
-
 	for (auto item : backgrounds) 
 	{
 		this->window->draw(item);
 	}
 }
 
+void Game::initEnemies()
+{
+	this->enemyTotalAmount = 20;
+	Vector2D position = Vector2D(300.f, 600.f);
+	std::cout << "Position: " << position << std::endl;
+	this->enemy = new Enemy(position, .2f, .2f);
+	
+}
+
+void Game::SpawnEnemies()
+{
+
+		
+}
+
 Game::Game()
 {
 	this->initWindow();
 	this->initPlayer();
+	this->initEnemies();
 }
 
 Game::~Game()
 {	
 	//Delete pointers
 	delete this->player;
+	delete this->enemy;
 	delete this->window;
 }
 
@@ -114,6 +129,7 @@ void Game::Update()
 	UpdateView();
 	this->player->Update(this->window);
 	this->window->setView(this->view);
+	SpawnEnemies();
 }
 
 void Game::Render()
@@ -127,6 +143,8 @@ void Game::Render()
 
 	//Drawing Player
 	this->player->Render(*this->window);
+	//Drawing Enemy
+	this->enemy->Render(*this->window);
 
 	//Present
 	this->window->display();

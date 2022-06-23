@@ -1,6 +1,7 @@
 #pragma once
 #include "SFLibrary.h"
 #include "Vector2D.h"
+#include "Rigidbody.h"
 
 class Player
 {
@@ -9,17 +10,17 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
+	Rigidbody rigidBody;
+
 	//Physics
-	Vector2D velocity;
 	float velocityMax;
 	float velocityMin;
 	float acceleration;
-	float drag;
+	float mass;
 
 	//Private functions
 	void initTexture();
 	void initSprite();
-	void initVariables();
 	void initPhysics();
 
 public:
@@ -29,11 +30,7 @@ public:
 
 	//Functions
 	sf::Sprite getSprite();
-	void setPositicon(float x,  float y);
-	void Move(Vector2D direction);
-
-	void UpdatePhysiscs();
-	void UpdateWindowCollision(const sf::RenderTarget* target);
+	void setPositicon(float x, float y);
 	void UpdatePlayerInput();
 
 	void Update(const sf::RenderTarget* target);

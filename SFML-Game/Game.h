@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Enemy.h"
 
 class Game
 {
@@ -19,6 +20,12 @@ private:
 	sf::Vector2f playerPosition;
 	Vector2D movementDirection;
 
+	//Enemies
+	std::vector<Enemy> enemyList;
+	Enemy* enemy;
+	int enemyTotalAmount = 0;
+	float spawnTimer;
+	float spawnTimerMax;
 
 	//Private Functions
 	void initWindow();
@@ -27,6 +34,11 @@ private:
 
 	void UpdateView();
 	void DisplayBackground();
+
+	//Init enemies
+	void initEnemies();
+	//Spawn Enemies 
+	void SpawnEnemies();
 
 public:
 	Game();

@@ -35,7 +35,6 @@ private:
 
 	//Enemies
 	std::vector<Enemy*> enemyList;
-	Enemy* enemy;
 	int enemyMaxAmount = 0;
 	int enemyAmount = 0;
 	float spawnTimer;

@@ -59,8 +59,6 @@ void Game::initEnemies()
 	this->enemyMaxAmount = 15;
 
 	Vector2D position = Vector2D(300.f, 600.f);
-	this->enemy = new Enemy();
-	this->enemy->SetPosition(position.x, position.y);
 	this->spawnTimerMax = 35.f;
 	this->spawnTimer = this->spawnTimerMax;
 
@@ -168,7 +166,6 @@ Game::~Game()
 		delete enemy;
 	}
 	delete this->player;
-	delete this->enemy;
 	delete this->window;
 }
 
@@ -242,8 +239,7 @@ void Game::Render()
 	DisplayBackground();
 	//Drawing Player
 	this->player->Render(*this->window);
-	//Drawing Enemy
-	this->enemy->Render(*this->window);
+	//Drawing Enemies
 	for (auto *enemy : this->enemyList) 
 	{
 		enemy->Render(*this->window);

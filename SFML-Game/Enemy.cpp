@@ -48,15 +48,33 @@ bool Enemy::TestCollision(sf::Sprite spriteA, sf::Sprite spriteB)
 	return this->rigidBody.TestCollision(spriteA, spriteB);
 }
 
-void Enemy::SetPosition(float x, float y)
+void Enemy::setPosition(float x, float y)
 {
 	this->sprite.setPosition(x, y);
 }
 
-void Enemy::SetDirection(Vector2D direction)
+void Enemy::setDirection(Vector2D direction)
 {
 	direction.Normalize();
 	this->direction = direction;
+}
+
+void Enemy::setAcceleration(float acceleration)
+{
+	this->acceleration = acceleration;
+}
+
+void Enemy::setSize(float size)
+{
+	this->sprite.scale(size, size);
+}
+
+void Enemy::ResetEnemy(Vector2D direction, Vector2D position, float size, float acceleration)
+{
+	this->setDirection(direction);
+	this->setPosition(position.x, position.y);
+	this->setSize(size);
+	this->setAcceleration(acceleration);
 }
 
 const Vector2D Enemy::getPosition() const

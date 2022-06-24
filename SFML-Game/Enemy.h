@@ -33,8 +33,11 @@ public:
 
 	bool TestCollision(sf::Sprite spriteA, sf::Sprite spriteB);
 
-	void SetPosition(float x, float y);
-	void SetDirection(Vector2D direction);
+	void setPosition(float x, float y);
+	void setDirection(Vector2D direction);
+	void setAcceleration(float acceleration);
+	void setSize(float size);
+	void ResetEnemy(Vector2D direction, Vector2D position, float size, float acceleration);
 
 	const Vector2D getPosition() const;
 	const sf::Sprite getSprite() const;

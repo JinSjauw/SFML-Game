@@ -12,7 +12,6 @@ private:
 	sf::View view;
 	
 	//Background
-	//sf::Sprite backgroundSprite;
 	sf::Texture backgroundTexture;
 	std::vector<sf::Sprite> backgrounds;
 

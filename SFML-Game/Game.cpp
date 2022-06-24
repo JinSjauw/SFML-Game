@@ -9,7 +9,6 @@ void Game::initWindow()
 
 	this->backgroundTexture.loadFromFile("Assets/Background2.png");
 	
-	
 	//Filling up the list with 3 copies of the same background sprite
 	for (unsigned int i = 0; i < 15; i++) 
 	{
@@ -56,12 +55,9 @@ void Game::initPlayer()
 
 void Game::initEnemies()
 {
-	this->enemyMaxAmount = 15;
-
-	Vector2D position = Vector2D(300.f, 600.f);
+	this->enemyMaxAmount = 30;
 	this->spawnTimerMax = 35.f;
 	this->spawnTimer = this->spawnTimerMax;
-
 }
 
 void Game::UpdateView()
@@ -93,33 +89,37 @@ void Game::DisplayBackground()
 
 void Game::UpdateEnemies()
 {
+	Vector2D position = Vector2D(rand() % this->window->getSize().x, this->view.getCenter().y - this->view.getSize().y);
+	float randomSize = (rand() % 4 + 1) / 10.f;
+	float randomAcceleration = (rand() % 4 + 1) / 10.f;
+
+	//Setting direction for movement
+	float randomAngle = (rand() % 1 + 1) / 10.f;
+	int randomDirection = rand() % 2;
+	Vector2D direction = Vector2D(randomAngle * ((randomDirection < 1) ? -1.f : 1.f), 1.f);
+
 	this->spawnTimer += 0.5f;
+	//Spawning the enemies when the timer has reached the timerMax
 	if (this->spawnTimer >= this->spawnTimerMax && this->enemyAmount < this->enemyMaxAmount)
 	{
-		Vector2D position = Vector2D(rand() % this->window->getSize().x, this->view.getCenter().y - this->view.getSize().y);
-		float randomSize = (rand() % 4 + 1) / 10.f;
-		
 		//Creating enemy
-		Enemy* enemy = new Enemy(position, randomSize, (rand() % 4 + 1) / 10.f);
-
-		//Setting direction for movement
-		float randomAngle = (rand() % 1 + 1) / 10.f;
-		int randomDirection = rand() % 2;
-		Vector2D direction = Vector2D(randomAngle * ((randomDirection < 1) ? -1.f : 1.f), 1.f);
-		enemy->SetDirection(direction);
-
+		Enemy* enemy = new Enemy();
+		//Setting the enemy variables
+		enemy->ResetEnemy(direction, position, randomSize, randomAcceleration);
 		this->enemyList.push_back(enemy);
 		this->enemyAmount++;
 		this->spawnTimer = 0.f;
 	}
 
+	// Updating all the enemies.
 	for (int i = 0; i < this->enemyList.size(); i++) 
 	{
 		this->enemyList[i]->Update(this->window);
 		if (this->enemyList[i]->TestCollision(this->enemyList[i]->getSprite(), this->player->getSprite())) 
 		{
-			this->enemyList.erase(this->enemyList.begin() + i);
-			this->enemyAmount--;
+			//resetting the enemy variables
+			this->enemyList[i]->ResetEnemy(direction, position, randomSize, randomAcceleration);
+
 			std::cout << this->enemyList.size() << " Enemy Collision!" << std::endl;
 			this->score -= 10;
 			if (score <= 0) 
@@ -133,16 +133,17 @@ void Game::UpdateEnemies()
 		//Remove enemies when they pass the bottom screen
 		if (this->enemyList[i]->getPosition().y > this->view.getCenter().y + this->view.getSize().y / 2) 
 		{
-			this->enemyList.erase(this->enemyList.begin() + i);
-			this->enemyAmount--;
-			std::cout << this->enemyList.size() << " Enemy Deleted!" << std::endl;
+			//resetting the enemy variables
+			this->enemyList[i]->ResetEnemy(direction, position, randomSize, randomAcceleration);
+			std::cout << this->enemyList.size() << " Enemy Reset! " << this->enemyList[i]->getPosition() << std::endl;
 		}
 	}
 }
 
 void Game::Win()
 {
-	if (player->getSprite().getPosition().y + player->getSprite().getGlobalBounds().height < this->view.getCenter().y - this->view.getSize().y / 2) 
+	if (player->getSprite().getPosition().y + player->getSprite().getGlobalBounds().height 
+		< this->view.getCenter().y - this->view.getSize().y / 2) 
 	{
 		gameEnd = true;
 		gameWin = true;
@@ -188,7 +189,6 @@ void Game::UpdateText()
 	this->scoreText.setPosition(20.f, this->view.getCenter().y - this->view.getSize().y / 2 );
 
 	this->uiText.setPosition(this->view.getCenter().x - this->uiText.getGlobalBounds().width / 2, this->view.getCenter().y - this->uiText.getGlobalBounds().height / 2);
-
 }
 
 void Game::UpdatePollEvents()
@@ -220,7 +220,6 @@ void Game::Update()
 	this->UpdateEnemies();
 	this->Win();
 	this->UpdateText();
-	
 }
 
 void Game::RenderText()

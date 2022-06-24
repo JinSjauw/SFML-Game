@@ -4,8 +4,8 @@
 class Rigidbody
 {
 private:
-	//Physics
 
+	//Physics
 	//Velocity
 	Vector2D velocity;
 	sf::Sprite* sprite;

@@ -142,7 +142,6 @@ Vector2D& Vector2D::Normalize()
 	return *this;
 }
 
-
 std::ostream& operator<<(std::ostream& stream, const Vector2D& vector)
 {
 	stream << "(" << vector.x << ", " << vector.y << ")";

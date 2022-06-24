@@ -48,11 +48,12 @@ void Rigidbody::setMass(float mass)
 
 void Rigidbody::AddForce(Vector2D direction)
 {
+	//Moving the body
 	Vector2D currentPosition(this->sprite->getPosition().x, this->sprite->getPosition().y);
 	this->sprite->setPosition(currentPosition.x + this->velocity.x, currentPosition.y + this->velocity.y);
 	//Normalizing the direction vector
 	direction.Normalize();
-	//Acceleration
+	//Apply Acceleration
 	this->velocity += direction * this->acceleration;
 
 	//Limit velocity
@@ -70,8 +71,6 @@ void Rigidbody::UpdatePhysics()
 {
 	//Deceleration
 	this->velocity *= this->drag;
-
-	//std::cout << "Velocity: " << this->velocity << std::endl;
 
 	//Limit deceleration
 	if (std::abs(this->velocity.x) < this->velocityMin)

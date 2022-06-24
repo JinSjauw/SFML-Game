@@ -28,7 +28,7 @@ public:
 
 	void AddForce(Vector2D direction);
 	void UpdatePhysics();
-	void TestCollision();
+	bool TestCollision(sf::Sprite spriteA, sf::Sprite spriteB);
 	void UpdateWindowBoundCollision(const sf::RenderTarget* target);
 };
 

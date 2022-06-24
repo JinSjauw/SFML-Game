@@ -29,7 +29,7 @@ public:
 	virtual ~Player();
 
 	//Functions
-	sf::Sprite getSprite();
+	const sf::Sprite getSprite() const;
 	void setPositicon(float x, float y);
 	void UpdatePlayerInput();
 

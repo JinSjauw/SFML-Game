@@ -80,16 +80,21 @@ void Rigidbody::UpdatePhysics()
 		this->velocity.y = 0.f;
 }
 
-void Rigidbody::TestCollision()
+bool Rigidbody::TestCollision(sf::Sprite spriteA, sf::Sprite spriteB)
 {
-	//Discrete Collision detection 
-	//Check if 2 objects intersects
+	sf::FloatRect rectA = spriteA.getGlobalBounds();
+	sf::FloatRect rectB = spriteB.getGlobalBounds();
 
-	//Use Sweep and Prune to check what objects need to be tested for collision;
-	//Sorted list will be filled with Rigidbodies
+	if (
+		rectA.left + rectA.width >= rectB.left &&
+		rectB.left + rectB.width >= rectA.left &&
 
-	//The Sweep and Prune runs in the Game.cpp. 
-	//The collision test gets called on the objects that are in the active interval list
+		rectA.top + rectA.height >= rectB.top &&
+		rectB.top + rectB.height >= rectA.top )
+	{
+		return true;
+	}
+	return false;
 }
 
 void Rigidbody::UpdateWindowBoundCollision(const sf::RenderTarget* target)

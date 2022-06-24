@@ -12,8 +12,6 @@ void Enemy::initTexture()
 void Enemy::initSprite()
 {
 	this->sprite.setTexture(this->texture);
-	//Resize sprite
-	//this->sprite.scale(1.f, 1.2f);
 }
 
 void Enemy::initPhysics()
@@ -45,6 +43,11 @@ Enemy::~Enemy()
 
 }
 
+bool Enemy::TestCollision(sf::Sprite spriteA, sf::Sprite spriteB)
+{
+	return this->rigidBody.TestCollision(spriteA, spriteB);
+}
+
 void Enemy::SetPosition(float x, float y)
 {
 	this->sprite.setPosition(x, y);
@@ -53,17 +56,29 @@ void Enemy::SetPosition(float x, float y)
 void Enemy::SetDirection(Vector2D direction)
 {
 	direction.Normalize();
-	this->rigidBody.AddForce(direction);
+	this->direction = direction;
+}
+
+const Vector2D Enemy::getPosition() const
+{
+	Vector2D position;
+	position.x = this->sprite.getPosition().x;
+	position.y = this->sprite.getPosition().y;
+	return position;
+}
+
+const sf::Sprite Enemy::getSprite() const
+{
+	return this->sprite;
 }
 
 void Enemy::Update(const sf::RenderTarget* target)
-{
-	this->rigidBody.UpdateWindowBoundCollision(target);
+{	
 	this->rigidBody.UpdatePhysics();
+	this->rigidBody.AddForce(this->direction);
 }
 
 void Enemy::Render(sf::RenderTarget& target)
 {
-	std::cout << "Drawing enemy at: " << this->sprite.getPosition().x << " " << this->sprite.getPosition().y << std::endl;
 	target.draw(this->sprite);
 }

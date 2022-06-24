@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "Enemy.h"
+#include <sstream>
 
 class Game
 {
@@ -15,30 +16,48 @@ private:
 	sf::Texture backgroundTexture;
 	std::vector<sf::Sprite> backgrounds;
 
+	//Fonts
+	sf::Font font;
+
+	//Text
+	sf::Text uiText;
+	sf::Text scoreText;
+
+	//Game Logic
+	bool gameEnd = false;
+	bool gameWin = false;
+	int score = 100;
+
 	//Player 
 	Player* player;
 	sf::Vector2f playerPosition;
 	Vector2D movementDirection;
 
 	//Enemies
-	std::vector<Enemy> enemyList;
+	std::vector<Enemy*> enemyList;
 	Enemy* enemy;
-	int enemyTotalAmount = 0;
+	int enemyMaxAmount = 0;
+	int enemyAmount = 0;
 	float spawnTimer;
 	float spawnTimerMax;
 
 	//Private Functions
+
+	//Initializing functions
 	void initWindow();
 	void initView(float x, float y, float width, float height);
+	void initText();
 	void initPlayer();
+	void initEnemies();
 
 	void UpdateView();
 	void DisplayBackground();
-
-	//Init enemies
-	void initEnemies();
+	
 	//Spawn Enemies 
-	void SpawnEnemies();
+	void UpdateEnemies();
+
+	//Win
+	void Win();
 
 public:
 	Game();
@@ -46,9 +65,12 @@ public:
 
 	//Public Functions
 	void Running();
-
+	
+	void UpdateText();
 	void UpdatePollEvents();
 	void Update();
+
+	void RenderText();
 	void Render();
 };
 

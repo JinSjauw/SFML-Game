@@ -42,7 +42,7 @@ Player::~Player()
 
 }
 
-sf::Sprite Player::getSprite()
+const sf::Sprite Player::getSprite() const
 {
 	return this->sprite;
 }
@@ -57,23 +57,19 @@ void Player::UpdatePlayerInput()
 	Vector2D movementDirection;
 
 	//Move player
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		movementDirection.x = -1.f;
 	}
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A)) 
-	{
-		movementDirection.x = 0;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		movementDirection.x = 1.f;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		movementDirection.y = -1.f;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		movementDirection.y = 1.f;
 	}

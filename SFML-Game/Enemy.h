@@ -31,8 +31,13 @@ public:
 	Enemy(Vector2D position, float size, float acceleration);
 	virtual ~Enemy();
 
+	bool TestCollision(sf::Sprite spriteA, sf::Sprite spriteB);
+
 	void SetPosition(float x, float y);
 	void SetDirection(Vector2D direction);
+
+	const Vector2D getPosition() const;
+	const sf::Sprite getSprite() const;
 
 	void Update(const sf::RenderTarget* target);
 	void Render(sf::RenderTarget& target);
